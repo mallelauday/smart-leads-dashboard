@@ -1,106 +1,199 @@
-# Smart Leads Dashboard
+# 🚀 Smart Leads Dashboard
 
-A full-stack Lead Management Dashboard built with the MERN stack + TypeScript.
+A full-stack **Lead Management Dashboard** built with the MERN stack + TypeScript. Supports role-based access control (Admin/Sales), real-time filtering, CSV export, and Docker deployment.
 
-## Tech Stack
+---
 
-| Layer    | Technology                          |
-|----------|-------------------------------------|
-| Frontend | React.js, TypeScript, TailwindCSS   |
-| Backend  | Node.js, Express.js, TypeScript     |
-| Database | MongoDB + Mongoose                  |
-| Auth     | JWT + bcrypt                        |
-| DevOps   | Docker + Docker Compose             |
+## 🌐 Live Demo
 
-## Getting Started
+| Service  | URL |
+|----------|-----|
+| Frontend | https://smart-leads-dashboard-8co1.vercel.app |
+| Backend  | https://dashboard.render.com/project/prj-d84721beo5us73e2dpmg |
 
-### Prerequisites
-- Node.js 20+
-- MongoDB (local or Atlas)
-- Docker (optional)
+---
 
-### Local Setup
+## 🛠 Tech Stack
 
-**1. Clone the repository**
-```bash
-git clone <your-repo-url>
-cd smart-leads-dashboard
-```
+| Layer     | Technology                        |
+|-----------|-----------------------------------|
+| Frontend  | React.js, TypeScript, TailwindCSS |
+| Backend   | Node.js, Express.js, TypeScript   |
+| Database  | MongoDB + Mongoose                |
+| Auth      | JWT + bcrypt                      |
+| DevOps    | Docker + Docker Compose           |
 
-**2. Setup the server**
-```bash
-cd server
-cp .env.example .env        # Fill in your values
-npm install
-npm run dev
-```
+---
 
-**3. Setup the client**
-```bash
-cd client
-cp .env.example .env        # Fill in your values
-npm install
-npm start
-```
+## ✨ Features
 
-### Docker Setup
-```bash
-cp server/.env.example server/.env   # Edit JWT_SECRET
-docker-compose up --build
-```
+- 🔐 JWT Authentication (Register / Login)
+- 👥 Role-Based Access Control — **Admin** and **Sales** roles
+- 📋 Full Lead CRUD (Create, Read, Update, Delete)
+- 🔍 Search & Filter leads by status, source, and keyword
+- 📤 Export leads to CSV
+- 📱 Responsive UI with TailwindCSS
+- 🐳 Dockerized for easy deployment
 
-- Client: http://localhost:3000
-- Server: http://localhost:5000
-- MongoDB: localhost:27017
+---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 smart-leads-dashboard/
-├── client/                   # React frontend
+├── client/                   # React frontend (TypeScript)
 │   └── src/
-│       ├── api/              # Axios instance
-│       ├── components/       # Reusable UI components
-│       │   ├── auth/         # Login, Register forms
+│       ├── api/              # Axios instance & interceptors
+│       ├── components/
+│       │   ├── auth/         # Login & Register forms
 │       │   ├── layout/       # Navbar, Sidebar
 │       │   ├── leads/        # Lead table, filters, modal
-│       │   └── ui/           # Button, Input, Badge, etc.
-│       ├── context/          # Auth context
+│       │   └── ui/           # Reusable UI components
+│       ├── context/          # Auth context (JWT state)
 │       ├── hooks/            # useDebounce, etc.
-│       ├── pages/            # Route-level pages
+│       ├── pages/            # DashboardPage, LoginPage, RegisterPage
 │       ├── types/            # TypeScript interfaces
-│       └── utils/            # CSV export, helpers
-├── server/                   # Express backend
+│       └── utils/            # CSV export helper
+├── server/                   # Express backend (TypeScript)
 │   └── src/
-│       ├── config/           # DB connection
-│       ├── controllers/      # Route logic
-│       ├── middleware/        # Auth, RBAC, error handler
-│       ├── models/           # Mongoose schemas
-│       ├── routes/           # Express routers
-│       ├── types/            # TypeScript types
-│       └── utils/            # Shared utilities
+│       ├── config/           # MongoDB connection
+│       ├── controllers/      # authController, leadController
+│       ├── middleware/        # JWT auth, RBAC, error handler
+│       ├── models/           # User, Lead (Mongoose schemas)
+│       ├── routes/           # /api/auth, /api/leads
+│       └── types/            # Shared TS types
 ├── docker-compose.yml
 └── README.md
 ```
 
-## API Endpoints
+---
 
-| Method | Endpoint             | Auth     | Description         |
-|--------|----------------------|----------|---------------------|
-| POST   | /api/auth/register   | Public   | Register new user   |
-| POST   | /api/auth/login      | Public   | Login user          |
-| GET    | /api/leads           | Required | Get all leads       |
-| POST   | /api/leads           | Required | Create a lead       |
-| PUT    | /api/leads/:id       | Required | Update a lead       |
-| DELETE | /api/leads/:id       | Admin    | Delete a lead       |
-| GET    | /api/leads/export    | Required | Export leads as CSV |
+## ⚙️ Setup Instructions
 
-## Roles
+### Prerequisites
+- Node.js 20+
+- MongoDB (local or Atlas)
+- Docker *(optional)*
+
+---
+
+### Option 1 — Local Setup (Manual)
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/mallelauday/smart-leads-dashboard.git
+cd smart-leads-dashboard
+```
+
+**2. Setup the Backend**
+```bash
+cd server
+cp .env.example .env      # Fill in your values (see .env.example)
+npm install
+npm run dev               # Runs on http://localhost:5000
+```
+
+**3. Setup the Frontend**
+```bash
+cd ../client
+cp .env.example .env      # Fill in your values
+npm install
+npm start                 # Runs on http://localhost:3000
+```
+
+---
+
+### Option 2 — Docker Setup
+
+```bash
+git clone https://github.com/mallelauday/smart-leads-dashboard.git
+cd smart-leads-dashboard
+cp server/.env.example server/.env    # Edit JWT_SECRET at minimum
+docker-compose up --build
+```
+
+| Service  | URL                    |
+|----------|------------------------|
+| Frontend | http://localhost:3000  |
+| Backend  | http://localhost:5000  |
+| MongoDB  | localhost:27017        |
+
+---
+
+## 🔑 Environment Variables
+
+### Server (`server/.env`)
+
+| Variable    | Description                      | Example                          |
+|-------------|----------------------------------|----------------------------------|
+| PORT        | Server port                      | `5000`                           |
+| MONGO_URI   | MongoDB connection string        | `mongodb+srv://...`              |
+| JWT_SECRET  | Secret key for JWT signing       | `your_super_secret_key`          |
+| NODE_ENV    | Environment                      | `development` / `production`     |
+| CLIENT_URL  | Frontend URL (for CORS)          | `http://localhost:3000`          |
+
+### Client (`client/.env`)
+
+| Variable           | Description          | Example                       |
+|--------------------|----------------------|-------------------------------|
+| REACT_APP_API_URL  | Backend API base URL | `http://localhost:5000/api`   |
+
+---
+
+## 👤 User Roles
 
 | Feature        | Admin | Sales |
-|----------------|-------|-------|
+|----------------|:-----:|:-----:|
 | View leads     | ✅    | ✅    |
 | Create leads   | ✅    | ✅    |
 | Update leads   | ✅    | ✅    |
 | Delete leads   | ✅    | ❌    |
 | Export CSV     | ✅    | ✅    |
+
+---
+
+## 📡 API Endpoints
+
+### Auth
+
+| Method | Endpoint             | Auth     | Description       |
+|--------|----------------------|----------|-------------------|
+| POST   | /api/auth/register   | Public   | Register new user |
+| POST   | /api/auth/login      | Public   | Login user        |
+| GET    | /api/auth/me         | Required | Get current user  |
+
+### Leads
+
+| Method | Endpoint           | Auth     | Role  | Description         |
+|--------|--------------------|----------|-------|---------------------|
+| GET    | /api/leads         | Required | Any   | Get all leads       |
+| POST   | /api/leads         | Required | Any   | Create a lead       |
+| GET    | /api/leads/:id     | Required | Any   | Get lead by ID      |
+| PUT    | /api/leads/:id     | Required | Any   | Update a lead       |
+| DELETE | /api/leads/:id     | Required | Admin | Delete a lead       |
+| GET    | /api/leads/export  | Required | Any   | Export leads as CSV |
+
+---
+
+## 📦 Data Models
+
+### User
+```json
+{
+  "name": "string (2–50 chars)",
+  "email": "string (unique)",
+  "password": "string (hashed, min 6 chars)",
+  "role": "admin | sales"
+}
+```
+
+### Lead
+```json
+{
+  "name": "string (2–100 chars)",
+  "email": "string",
+  "status": "New | Contacted | Qualified | Lost",
+  "source": "Website | Instagram | Referral",
+  "createdBy": "ObjectId (ref: User)"
+}
+```
